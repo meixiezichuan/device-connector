@@ -21,11 +21,12 @@ func main() {
 	//subIP := "10.0.2.6"
 	subMac := os.Getenv("SUBMAC")
 	//subMac := "00:0d:3a:41:ce:f0"
+	iface := os.Getenv("IFACE")
 
-	PodProxy(ports, subIP, subMac)
+	PodProxy(ports, iface, subIP, subMac)
 }
 
-func PodProxy(ports []uint16, subIP string, subMac string) {
+func PodProxy(ports []uint16, iface string, subIP string, subMac string) {
 	sigs := make(chan os.Signal, 1)
 	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
 
@@ -34,7 +35,7 @@ func PodProxy(ports []uint16, subIP string, subMac string) {
 	sub := pod_proxy.Info(sIP, 0, sMac)
 
 	x := pod_proxy.NewXdpRedirector(sub)
-	x.Init(ports)
+	x.Init(ports, iface)
 
 	<-sigs
 	x.Close()

@@ -21,7 +21,7 @@ Below is an example: replace the placeholders with your values for SUBIP and SUB
 SUBIP and SUBMAC are the IP address and MAC address of the node where deviceProxy is installed in the subordinate cluster.
 
 ```shell
-SUBIP="10.0.2.6" SUBMAC="00:0d:3a:41:ce:f0" podproxy
+IFACE="eth0" SUBIP="10.0.2.6" SUBMAC="00:0d:3a:41:ce:f0" podproxy
 ```
 
 Run deviceProxy in the subordinate cluster. 

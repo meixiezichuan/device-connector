@@ -40,7 +40,7 @@ func NewXdpRedirector(subInfo bpfInfo) *XdpRedirector {
 	return &xdpRedirecotr
 }
 
-func (x *XdpRedirector) Init(ports []uint16) {
+func (x *XdpRedirector) Init(ports []uint16, ifName string) {
 	x.Ports = ports
 	objs = bpfObjects{}
 	var err error
@@ -53,9 +53,9 @@ func (x *XdpRedirector) Init(ports []uint16) {
 		log.Fatalf("loading objects: %s", err)
 	}
 
-	iface, err := net.InterfaceByName("eth0")
+	iface, err := net.InterfaceByName(ifName)
 	if err != nil {
-		log.Fatalf("lookup network iface %q: %s", "eth0", err)
+		log.Fatalf("lookup network iface %q: %s", ifName, err)
 	}
 
 	l, err = link.AttachXDP(link.XDPOptions{
@@ -71,7 +71,6 @@ func (x *XdpRedirector) Init(ports []uint16) {
 	if err = objs.XdpProgFunc.Pin(nameRedirectProg); err != nil {
 		objs.Close()
 		l.Close()
-		l2.Close()
 		log.Fatalf("could not pin XDP redirect program, err %s", err)
 	}
 
