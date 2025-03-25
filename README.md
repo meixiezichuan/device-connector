@@ -1,4 +1,4 @@
-# deviceConnector
+# DeviceConnector
 
 This project implements the podProxy and deviceProxy in EdgeConnector, both of which leverage XDP technology for service request forwarding and device information forwarding.
 
